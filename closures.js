@@ -71,14 +71,22 @@ in your console. */
 /* Write a function called makeCounter that makes the following code work
 properly. */
 
-//Code Here
+var makeCounter = function() {
+   i = 0;
+
+  var func = function(){
+    i = i + 1;
+    return i;
+  }
+  return func;
+}
 
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+var count = makeCounter();
+count(); // 1
+count(); // 2
+count(); // 3
+count(); // 4
 
 
 
@@ -102,10 +110,14 @@ the module pattern to achieve this. */
 
 function counterFactory(value) {
 
-  // Code here.
+  var inc = function() {
+    return (value = value + 1);
+  }
+  var dec = function() {
+    return (value = value - 1);
+  }
 
-
-  return {
+  return {inc: inc, dec: dec
   }
 }
 
@@ -135,9 +147,14 @@ function motivation(firstname, lastname){
 
   // code message function here.
 
+ var message = function() {
+
+   return welcomeText + firstname + ' ' + lastname  + '.';
+
+ }
 
   //Uncommment this to return the value of your invoked message function
-  //return message();
+  return message();
 
 }
 
@@ -176,13 +193,15 @@ var module = (function() {
 	// outside our lexical scope
 
   return {
-    // Code here.
+    publicMethod: function(){
+      return privateMethod();
+    }
   };
 
 })();
 
 // Uncomment this after you create your public method
-//   module.publicMethod();
+  module.publicMethod();
 
 
 
@@ -203,16 +222,32 @@ to 5. What we need to do is console.log(i) so that it logs ( 0 then 1 then 2
 then 3, etc). Run this code in your console to see what the output is. */
 
 // To make this code work you will need to create a new scope for every iteration.
-function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
-  }
+// function timeOutCounter() {
+//   for (var i = 0; i <= 5; i++) {
+//     setTimeout(function() {
+//       logger();
+//     }, i * 1000)
+//   }
+// function logger(num){
+// return function newScope(num) {
+//     console.log(i)
+//   }
+// }
+// }
+// timeOutCounter();
 
-  function newScope(i) {
-    console.log(i)
-  }
+
+function timeOutCounter() {
+ for (var i = 0; i <= 5; i++) {
+   setTimeout(logger(i), i * 1000)
+ }
+
+ function logger(num) {
+   return function () {
+     console.log(num);
+   }
+ }
+
 }
 timeOutCounter();
 
@@ -226,6 +261,16 @@ timeOutCounter();
 \******************************************************************************/
 
 var funcArray = [];
+for (i = 0; i < 6; i++){
+  funcArray.push(logger(i))
+};
+function logger(num){
+  return function(){
+    return num;
+  }
+}
+
+
 
 /*
   Make the following code work
